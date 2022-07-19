@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="header_time">Time</string>
+    <string name="header_temp">Temp</string>
+    <string name="header_rain">Chance of Rain</string>
+    <string name="header_winde">Wind(mph)</string>
+    <string name="header_humidity">Humidity</string>
+    <string name="Search_City_Hint">Search Cities</string>
+    <string name="no_results_text">No Results</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.weather.br_weather.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/navigation_radar"
+            app:destination="@id/radarFragment" >
+        <argument
+            android:name="cityDetail"
+            app:argType="com.weather.br_weather.model.CityDetail" />
+        </action>
+        <action
+            android:id="@+id/navigation_city_search"
+            app:destination="@id/citySearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/radarFragment"
+        android:name="com.weather.br_weather.RadarFragment"
+        android:label="fragment_radar"
+        tools:layout="@layout/fragment_radar" >
+    <argument
+        android:name="cityDetail"
+        app:argType="com.weather.br_weather.model.CityDetail"/>
+    </fragment>
+    <fragment
+        android:id="@+id/citySearchFragment"
+        android:name="com.weather.br_weather.CitySearchFragment"
+        android:label="fragment_city_search"
+        tools:layout="@layout/fragment_city_search" />
+</navigation>

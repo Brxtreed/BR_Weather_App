@@ -1,0 +1,8 @@
+package com.weather.br_weather.Util
+
+class PreferenceConstants {
+    companion object {
+        const val SAVED_CITIES = "SAVED_CITIES"
+        const val NETWORK_CACHED_CITIES = "NETWORK_CACHED_CITIES"
+    }
+}
