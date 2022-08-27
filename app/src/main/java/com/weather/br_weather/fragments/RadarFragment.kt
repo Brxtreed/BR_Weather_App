@@ -1,4 +1,4 @@
-package com.weather.br_weather
+package com.weather.br_weather.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.weather.br_weather.R
+import com.weather.br_weather.viewModels.RadarViewModel
 import com.weather.br_weather.network.ResponseCode
 import dagger.hilt.android.AndroidEntryPoint
 

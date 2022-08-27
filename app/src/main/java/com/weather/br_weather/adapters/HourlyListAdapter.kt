@@ -1,9 +1,10 @@
 package com.weather.br_weather.adapters
 
-import HourlyWeather.HourlyWeather
+import com.weather.br_weather.model.HourlyWeather
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.weather.br_weather.R
@@ -11,6 +12,7 @@ import com.weather.br_weather.Util.farenheightTemp
 import com.weather.br_weather.Util.hour
 import com.weather.br_weather.Util.humidity
 import com.weather.br_weather.Util.rainChance
+import com.weather.br_weather.model.WeatherIcon
 
 class HourlyListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val HEADER = 0
@@ -101,6 +103,23 @@ class HourlyListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         holder.hourWindText.text = hourWeather.windSpeed.toString()
         holder.hourTempText.text = hourWeather.temperature.toString().farenheightTemp()
 
+        when(hourWeather.weatherType){
+
+            WeatherIcon.HEAVY_RAIN -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_heavy_rain_active) }
+
+            WeatherIcon.LIGHT_RAIN -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_light_rain_active) }
+
+            WeatherIcon.SNOW_SLEET -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_snow_sleet_active) }
+
+            WeatherIcon.CLOUDY -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_cloudy_active) }
+
+            WeatherIcon.SUNNY -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_sunny_active) }
+
+            WeatherIcon.PART_CLOUD -> { holder.hourIconImage.setImageResource(R.drawable.icon_weather_active_ic_partly_cloudy_active) }
+
+
+        }
+
     }
 
     private fun configureHeaderHolder(holder: HeaderHolder, position: Int) {}
@@ -112,6 +131,7 @@ class HourlyListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val hourTimeText: TextView = itemView.findViewById(R.id.hour_time_text)
         val hourWindText: TextView = itemView.findViewById(R.id.hour_wind_text)
         val hourTempText: TextView = itemView.findViewById(R.id.hour_temp_text)
+        val hourIconImage: ImageView = itemView.findViewById(R.id.hour_icon_image)
 
     }
 

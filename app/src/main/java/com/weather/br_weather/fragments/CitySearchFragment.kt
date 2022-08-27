@@ -1,4 +1,4 @@
-package com.weather.br_weather
+package com.weather.br_weather.fragments
 
 import android.content.res.Configuration
 import android.graphics.Color
@@ -16,8 +16,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.weather.br_weather.R
 import com.weather.br_weather.adapters.SearchAdapter
 import com.weather.br_weather.network.ResponseCode
+import com.weather.br_weather.viewModels.CitySearchViewModel
+import com.weather.br_weather.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -79,10 +82,10 @@ class CitySearchFragment : DialogFragment() {
 
             when (it.responseCode) {
                 ResponseCode.SUCCESS -> {
-                    it.data?.cities.let {
-                        if (it != null) {
-                            if(it.size > 0) {
-                                searchAdapter.addCities(it)
+                    it.data?.cities.let { cityList ->
+                        if (cityList != null) {
+                            if(cityList.isNotEmpty()) {
+                                searchAdapter.addCities(cityList)
                                 searchRecycler.isVisible = true
                                 noResultsText.isVisible = false
 
@@ -100,6 +103,9 @@ class CitySearchFragment : DialogFragment() {
 
                 ResponseCode.ERROR -> {
                     Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                    searchRecycler.isVisible = false
+                    noResultsText.isVisible = true
+                    progressBar.isVisible = false
 
 
                 }
@@ -112,7 +118,7 @@ class CitySearchFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[CitySearchViewModel::class.java]
-        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
     }
 
     override fun onResume() {
@@ -124,8 +130,8 @@ class CitySearchFragment : DialogFragment() {
         val width = size.x
         val height = size.y
         display.getSize(size)
-        window?.setLayout((width), (height))
-        window?.setGravity(Gravity.CENTER)
+        window.setLayout((width), (height))
+        window.setGravity(Gravity.CENTER)
         when (requireContext().resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#66000000")))}
             Configuration.UI_MODE_NIGHT_NO -> { dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#D9FFFFFF")))}
@@ -134,12 +140,5 @@ class CitySearchFragment : DialogFragment() {
 
     }
 
-    inner class Handler{
-
-        fun dismiss(view: View) {
-            dismiss()
-        }
-
-    }
 
 }

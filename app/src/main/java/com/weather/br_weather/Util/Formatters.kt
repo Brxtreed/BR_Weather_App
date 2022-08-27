@@ -1,6 +1,6 @@
 package com.weather.br_weather.Util
 
-import HourlyWeather.HourlyWeather
+import com.weather.br_weather.model.HourlyWeather
 import com.weather.br_weather.model.Day
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -69,7 +69,6 @@ fun HourlyWeather.rainChance(): String {
 }
 
 fun HourlyWeather.humidity(): String {
-
     return "${humidity?.times(100)?.toInt()}%"
     return ""
 
@@ -83,6 +82,6 @@ fun getCurrentTime(): String{
 }
 
 fun getDayOfWeek(): Int {
-    var date = LocalDate()
+    val date = LocalDate()
     return date.dayOfWeek-1
 }

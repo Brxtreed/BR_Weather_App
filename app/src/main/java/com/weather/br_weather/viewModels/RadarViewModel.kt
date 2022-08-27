@@ -1,4 +1,4 @@
-package com.weather.br_weather
+package com.weather.br_weather.viewModels
 
 import androidx.lifecycle.ViewModel
 import com.weather.br_weather.network.requesters.GetRadarImageRequester

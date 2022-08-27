@@ -1,11 +1,10 @@
-package com.weather.br_weather
+package com.weather.br_weather.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -17,18 +16,24 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.weather.br_weather.Util.*
+import com.weather.br_weather.R
+import com.weather.br_weather.Util.farenheightTemp
+import com.weather.br_weather.Util.getCurrentTime
+import com.weather.br_weather.Util.getDayOfWeek
 import com.weather.br_weather.adapters.DailyTemperatureAdapter
 import com.weather.br_weather.adapters.HourlyListAdapter
+import com.weather.br_weather.model.City
 import com.weather.br_weather.network.ResponseCode
+import com.weather.br_weather.viewModels.HomeViewModel
+import com.weather.br_weather.viewModels.WeatherPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private lateinit var viewModel: HomeViewModel
+class WeatherPageFragment : Fragment() {
+    private lateinit var viewModel: WeatherPageViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var cityImage: ImageView
-    private lateinit var searchButton: ImageButton
     private lateinit var cityNameText: TextView
     private lateinit var dateTimeText: TextView
     private lateinit var temperatureText: TextView
@@ -37,6 +42,8 @@ class HomeFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var weatherView: ConstraintLayout
     private lateinit var dailyGridView: GridView
+    private lateinit var deleteButton: ImageButton
+    var city: City? = null
 
     @Inject
     lateinit var dailyGridAdapter: DailyTemperatureAdapter
@@ -46,9 +53,9 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val layout = inflater.inflate(R.layout.fragment_home, container, false)
+        val layout = inflater.inflate(R.layout.fragment_weather_page, container, false)
+        city = arguments?.getParcelable("city") as City?
         cityImage = layout.findViewById(R.id.city_image)
-        searchButton = layout.findViewById(R.id.search_button)
         cityNameText = layout.findViewById(R.id.city_name_text)
         dateTimeText = layout.findViewById(R.id.date_time_text)
         temperatureText = layout.findViewById(R.id.temperature_text)
@@ -57,6 +64,7 @@ class HomeFragment : Fragment() {
         progressBar = layout.findViewById(R.id.progressBar)
         weatherView = layout.findViewById(R.id.weather_view)
         dailyGridView = layout.findViewById(R.id.gridview)
+        deleteButton = layout.findViewById(R.id.delete_button)
         progressBar.isVisible = true
         viewRadarButton.isVisible = false
         initViews()
@@ -68,6 +76,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObservers() {
+        //Retrofit response holding the cityDetail information
         viewModel.getCityDetailsResponse.observe(viewLifecycleOwner) {
             initListeners()
 
@@ -88,7 +97,7 @@ class HomeFragment : Fragment() {
                         city.weather?.days?.get(1)!!.high.toString().farenheightTemp()
                         if (city.weather?.days != null) {
                             val dailyWeather =
-                                city.weather?.days!!.find { it.dayOfTheWeek == getDayOfWeek() }
+                                city.weather?.days!!.find { day -> day.dayOfTheWeek == getDayOfWeek() }
                             temperatureText.text = dailyWeather?.high.toString().farenheightTemp()
                             dailyWeather?.hourlyWeather?.let { it1 -> hourlyListAdapter.setHours(it1) }
 
@@ -107,22 +116,14 @@ class HomeFragment : Fragment() {
             }
             it.responseCode = ResponseCode.DEFAULT
         }
-
-        viewModel.selectCity.observe(viewLifecycleOwner) {
-            initViews()
-        }
-
-        viewModel.savedCityResponse.observe(viewLifecycleOwner) {
-            initViews()
-        }
     }
 
     private fun initViews() {
         dateTimeText.text = getCurrentTime()
-        if (viewModel.getSavedCities() != null) {
-            val city = viewModel.getSavedCities()!!
-            cityNameText.text = city.name
-            viewModel.getCityInfo(city)
+        if (city != null) {
+            cityNameText.text = city?.name
+
+            viewModel.getCityInfo(city!!)
 
             val options: RequestOptions = RequestOptions()
                 .centerCrop()
@@ -134,7 +135,7 @@ class HomeFragment : Fragment() {
                 .dontTransform()
 
             Glide.with(requireContext())
-                .load(city.imageURLs?.iOSImageURLs?.imageURL)
+                .load(city?.imageURLs?.iOSImageURLs?.imageURL)
                 .apply(options)
                 .into(cityImage)
             dailyGridAdapter.clearDays()
@@ -155,14 +156,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initListeners() {
-        searchButton.setOnClickListener {
-            val searchFragment =
-                CitySearchFragment()
-            searchFragment.show(
-                childFragmentManager,
-                searchFragment.tag
-            )
-        }
 
         viewRadarButton.setOnClickListener {
             val action =
@@ -176,10 +169,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        deleteButton.setOnClickListener {
+            city?.let { it1 -> homeViewModel.removeCity(it1) }
+        }
+
         dailyGridAdapter.setDayListener {
-            it.hourlyWeather?.let { it1 ->
+            it.hourlyWeather?.let { hourlyWeather ->
                 hourlyListAdapter.setHours(
-                    it1
+                    hourlyWeather
                 )
             }
         }
@@ -188,10 +185,12 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+        viewModel = ViewModelProvider(this)[WeatherPageViewModel::class.java]
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
 
     }
+
 
 }
 

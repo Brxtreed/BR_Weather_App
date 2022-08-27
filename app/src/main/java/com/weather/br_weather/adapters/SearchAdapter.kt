@@ -13,7 +13,7 @@ class SearchAdapter :
     RecyclerView.Adapter<SearchAdapter.SearchListHolder>() {
 
     private var cityList: List<City> = listOf()
-    var citySearchListener: ((City) -> Unit)? = null
+    private var citySearchListener: ((City) -> Unit)? = null
 
     fun setCityListener(listener: (City) -> Unit) {
         this.citySearchListener = listener

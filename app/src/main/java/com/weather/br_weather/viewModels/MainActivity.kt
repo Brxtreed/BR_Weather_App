@@ -1,13 +1,13 @@
-package com.weather.br_weather
+package com.weather.br_weather.viewModels
 
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.weather.br_weather.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -15,7 +15,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use
         var isConnectionDropped = false
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
@@ -23,15 +22,6 @@ class MainActivity : AppCompatActivity() {
                 showConnectivitySuccess()
                 isConnectionDropped = false
             }
-        }
-
-        // Network capabilities have changed for the network
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            val unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
         }
 
         // lost network connection

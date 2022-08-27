@@ -33,5 +33,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_nam_text" />
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon_image" />
+
+    <ImageView
+        android:id="@+id/weather_icon_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:tint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/day_nam_text"
+        app:srcCompat="@drawable/ic_icon_weather_active_ic_cloudy_active" />
 </androidx.constraintlayout.widget.ConstraintLayout>

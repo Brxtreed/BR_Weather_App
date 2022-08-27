@@ -1,4 +1,4 @@
-package HourlyWeather
+package com.weather.br_weather.model
 
 import com.google.gson.annotations.Expose
 

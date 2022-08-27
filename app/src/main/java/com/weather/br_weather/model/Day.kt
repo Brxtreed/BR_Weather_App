@@ -1,6 +1,5 @@
 package com.weather.br_weather.model
 
-import HourlyWeather.HourlyWeather
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName

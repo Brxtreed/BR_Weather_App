@@ -7,15 +7,19 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.weather.br_weather.HomeFragment"
+        android:name="com.weather.br_weather.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/navigation_radar"
-            app:destination="@id/radarFragment" >
-        <argument
-            android:name="cityDetail"
-            app:argType="com.weather.br_weather.model.CityDetail" />
+            app:destination="@id/radarFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/slide_right"
+            app:popExitAnim="@anim/slide_left">
+            <argument
+                android:name="cityDetail"
+                app:argType="com.weather.br_weather.model.CityDetail" />
         </action>
         <action
             android:id="@+id/navigation_city_search"
@@ -23,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/radarFragment"
-        android:name="com.weather.br_weather.RadarFragment"
+        android:name="com.weather.br_weather.fragments.RadarFragment"
         android:label="fragment_radar"
         tools:layout="@layout/fragment_radar" >
     <argument
@@ -32,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/citySearchFragment"
-        android:name="com.weather.br_weather.CitySearchFragment"
+        android:name="com.weather.br_weather.fragments.CitySearchFragment"
         android:label="fragment_city_search"
         tools:layout="@layout/fragment_city_search" />
 </navigation>
