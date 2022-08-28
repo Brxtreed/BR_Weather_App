@@ -2,9 +2,13 @@ package com.weather.br_weather.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+@Entity
 class City() : Parcelable {
     @SerializedName("modification date")
     @Expose
@@ -26,6 +30,7 @@ class City() : Parcelable {
     @Expose
     var asciiname: String? = null
 
+    @PrimaryKey
     @SerializedName("geonameid")
     @Expose
     var geonameid: Int? = null
@@ -46,6 +51,8 @@ class City() : Parcelable {
     @Expose
     var cc2: String? = null
 
+
+    @Embedded
     @SerializedName("imageURLs")
     @Expose
     var imageURLs: ImageUrls? = null
@@ -85,8 +92,6 @@ class City() : Parcelable {
     @SerializedName("admin1 code")
     @Expose
     var admin1Code: String? = null
-
-    var cityDetail: CityDetail? = null
 
     constructor(parcel: Parcel) : this() {
         modificationDate = parcel.readString()

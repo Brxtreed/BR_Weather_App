@@ -1,4 +1,4 @@
-package com.weather.br_weather.viewModels
+package com.weather.br_weather
 
 import android.net.ConnectivityManager
 import android.net.Network
@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.weather.br_weather.R
+import com.weather.br_weather.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.weather.br_weather.R
 import com.weather.br_weather.adapters.WeatherPageAdapter
+import com.weather.br_weather.model.City
 import com.weather.br_weather.network.ResponseCode
 import com.weather.br_weather.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var searchActionButton: Button
     private lateinit var sunIconImage: ImageView
     private var isEmpty = true
+
     @Inject
     lateinit var animationHelper: Animation
 
@@ -54,7 +56,11 @@ class HomeFragment : Fragment() {
         viewPager.adapter = weatherPageAdapter
         initObservers()
         initListeners()
-        initViews()
+        TabLayoutMediator(tabLayout, viewPager)
+        { tab, position -> }.attach()
+        viewModel.getSavedCities()
+
+
         return layout
     }
 
@@ -64,94 +70,112 @@ class HomeFragment : Fragment() {
             when (it.responseCode) {
                 ResponseCode.SUCCESS -> {
                     val city = it.data
-                    if(isEmpty){
-                        initViews()
-                    }
-                    else {
-                        city?.let { it1 -> weatherPageAdapter.addFragment(it1) }
-                    }
+                    city?.let { it1 -> weatherPageAdapter.addFragment(it1) }
+                    hideEmptyState()
                 }
-                else -> {}
-            }
 
-            it.responseCode = ResponseCode.DEFAULT
-
+            else -> {}
         }
 
-        //Called when city icon is deleted within WeatherPageFragment
-        viewModel.removeCityResponse.observe(viewLifecycleOwner) { city ->
-            weatherPageAdapter.removeCity(city)
-            if(weatherPageAdapter.itemCount == 0){
-                isEmpty = true
-                initViews()
-
-            }
-
-        }
+        it.responseCode = ResponseCode.DEFAULT
 
     }
 
-    //Initializes either the no cities or multiple city viewpager
-    private fun initViews() {
-        val savedCities = viewModel.getSavedCities()
-        if (savedCities != null && savedCities.isNotEmpty()) {
-            weatherPageAdapter.initAdapter(savedCities)
-            viewPager.currentItem = 0
-            emptyStateBackground.isVisible = false
-            isEmpty = false
-
-        }
-        else{
-            sunIconImage.startAnimation(animationHelper)
+    //Called when city icon is deleted within WeatherPageFragment
+    viewModel.removeCityResponse.observe(viewLifecycleOwner)
+    {
+        city ->
+        weatherPageAdapter.removeCity(city)
+        if (weatherPageAdapter.itemCount == 0) {
             isEmpty = true
-            emptyStateBackground.isVisible = true
-
-        }
-        TabLayoutMediator(tabLayout, viewPager)
-        { tab, position -> }.attach()
-
-    }
-
-    private fun initListeners() {
-        searchButton.setOnClickListener {
-            val searchFragment =
-                CitySearchFragment()
-            searchFragment.show(
-                childFragmentManager,
-                searchFragment.tag
-            )
-        }
-
-        weatherPageAdapter.setWeatherListener { city, index ->
-            viewPager.currentItem = index
-        }
-
-        searchActionButton.setOnClickListener {
-            val searchFragment =
-                CitySearchFragment()
-            searchFragment.show(
-                childFragmentManager,
-                searchFragment.tag
-            )
+            showEmptyState()
 
         }
 
+    }
+    //Initial call to get all of cities saved in memory
+    viewModel.getCitiesResponse.observe(viewLifecycleOwner)
+    {
+        when (it.responseCode) {
+            ResponseCode.SUCCESS -> {
+                val cityList = it.data
+                if (cityList != null && cityList.isNotEmpty()) {
+                    showWeatherView(cityList)
+                    hideEmptyState()
+                }
+
+            }
+
+            else -> {}
+        }
+        it.responseCode = ResponseCode.DEFAULT
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+}
 
+private fun showEmptyState() {
+    isEmpty = true
+    sunIconImage.startAnimation(animationHelper)
+    isEmpty = true
+    emptyStateBackground.isVisible = true
+
+}
+
+private fun hideEmptyState() {
+    isEmpty = true
+    sunIconImage.clearAnimation()
+    emptyStateBackground.isVisible = false
+
+}
+
+private fun showWeatherView(cityList: List<City>) {
+    isEmpty = false
+    weatherPageAdapter.initAdapter(cityList)
+    viewPager.currentItem = 0
+    emptyStateBackground.isVisible = false
+
+}
+
+private fun initListeners() {
+    searchButton.setOnClickListener {
+        val searchFragment =
+            CitySearchFragment()
+        searchFragment.show(
+            childFragmentManager,
+            searchFragment.tag
+        )
+    }
+
+    weatherPageAdapter.setWeatherListener { city, index ->
+        viewPager.currentItem = index
+    }
+
+    searchActionButton.setOnClickListener {
+        val searchFragment =
+            CitySearchFragment()
+        searchFragment.show(
+            childFragmentManager,
+            searchFragment.tag
+        )
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewPager.adapter = null
+
+}
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
 
-    }
+}
+
+override fun onDestroyView() {
+    super.onDestroyView()
+    viewPager.adapter = null
+
+}
 
 }
 

@@ -70,6 +70,7 @@ class CitySearchFragment : DialogFragment() {
             false
         })
 
+        //On city selected pops view and adds city to HomeFragment
         searchAdapter.setCityListener {
             homeViewModel.saveCity(it)
             dismiss()

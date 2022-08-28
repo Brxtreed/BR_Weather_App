@@ -150,7 +150,7 @@ class WeatherPageFragment : Fragment() {
                     R.drawable.ic_baseline_broken_image_24
                 )
             )
-            cityNameText.text = "No city set please search for city"
+            cityNameText.text = getString(R.string.no_city_found_error_string)
             progressBar.isVisible = false
         }
     }
@@ -173,6 +173,7 @@ class WeatherPageFragment : Fragment() {
             city?.let { it1 -> homeViewModel.removeCity(it1) }
         }
 
+        //Listener attatched to day views if selected, changes hourly list
         dailyGridAdapter.setDayListener {
             it.hourlyWeather?.let { hourlyWeather ->
                 hourlyListAdapter.setHours(

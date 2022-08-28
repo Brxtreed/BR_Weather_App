@@ -3,6 +3,7 @@ package com.weather.br_weather.adapters
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.weather.br_weather.fragments.WeatherPageFragment
