@@ -30,9 +30,7 @@ class DailyTemperatureAdapter(context: Context, private var days: List<Day>, pri
                 break
             }
         }
-        if (sortedDays != null) {
-            this.days = sortedDays
-        }
+        this.days = sortedDays
         notifyDataSetChanged()
 
     }
@@ -61,15 +59,15 @@ class DailyTemperatureAdapter(context: Context, private var days: List<Day>, pri
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val day = days[position]
-        var view = view
+        var itemView = view
 
-        if (view == null)
-            view = inflater.inflate(R.layout.cell_daily_weather, parent, false)
+        if (itemView == null)
+            itemView = inflater.inflate(R.layout.cell_daily_weather, parent, false)
 
-        val dayNameText = view?.findViewById<TextView>(R.id.day_nam_text)
-        val dayTempText = view?.findViewById<TextView>(R.id.day_temperature_text)
-        val background = view?.findViewById<ConstraintLayout>(R.id.background)
-        val iconImage  = view?.findViewById<ImageView>(R.id.weather_icon_image)
+        val dayNameText = itemView?.findViewById<TextView>(R.id.day_nam_text)
+        val dayTempText = itemView?.findViewById<TextView>(R.id.day_temperature_text)
+        val background = itemView?.findViewById<ConstraintLayout>(R.id.background)
+        val iconImage  = itemView?.findViewById<ImageView>(R.id.weather_icon_image)
 
         dayNameText?.text = day.dayOfWeek()
         dayTempText?.text = day.high.toString().farenheightTemp()
@@ -109,7 +107,7 @@ class DailyTemperatureAdapter(context: Context, private var days: List<Day>, pri
             days[position].isSelected = true
             notifyDataSetChanged()
         }
-        return view!!
+        return itemView!!
     }
 
     override fun getCount(): Int {

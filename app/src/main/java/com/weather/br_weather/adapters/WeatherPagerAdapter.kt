@@ -11,9 +11,9 @@ import com.weather.br_weather.model.City
 
 class WeatherPageAdapter(fragmentManager: FragmentManager, lifeCycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifeCycle) {
     private val weatherFragments: ArrayList<WeatherPageFragment> = ArrayList()
-    private var weatherPageListener: ((City, Int) -> Unit)? = null
+    private var weatherPageListener: ((Int) -> Unit)? = null
 
-    fun setWeatherListener(listener: (City, Int) -> Unit) {
+    fun setWeatherListener(listener: (Int) -> Unit) {
         this.weatherPageListener = listener
 
     }
@@ -25,7 +25,7 @@ class WeatherPageAdapter(fragmentManager: FragmentManager, lifeCycle: Lifecycle)
             bundle.putParcelable("city", city)
             weatherPageFragment.arguments = bundle
             weatherFragments.add(weatherPageFragment)
-            weatherPageListener?.invoke(city, weatherFragments.size)
+            weatherPageListener?.invoke(weatherFragments.size)
             notifyDataSetChanged()
         }
 
@@ -67,7 +67,7 @@ class WeatherPageAdapter(fragmentManager: FragmentManager, lifeCycle: Lifecycle)
         val citySearch = weatherFragments.find { it.city?.geonameid == city.geonameid }
         if(citySearch != null){
             val index = weatherFragments.indexOf(citySearch)
-            weatherPageListener?.invoke(city, index)
+            weatherPageListener?.invoke(index)
         }
 
         return citySearch

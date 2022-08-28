@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
         initObservers()
         initListeners()
         TabLayoutMediator(tabLayout, viewPager)
-        { tab, position -> }.attach()
+        { _, _ -> }.attach()
         viewModel.getSavedCities()
 
 
@@ -147,7 +147,8 @@ private fun initListeners() {
         )
     }
 
-    weatherPageAdapter.setWeatherListener { city, index ->
+    //Jumps to viewpager index when a city already exsists
+    weatherPageAdapter.setWeatherListener { index ->
         viewPager.currentItem = index
     }
 

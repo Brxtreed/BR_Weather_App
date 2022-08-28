@@ -61,18 +61,11 @@ fun Day.dayOfWeek(): String {
 }
 
 fun HourlyWeather.rainChance(): String {
-
     return "${rainChance?.times(100)?.toInt()}%"
-    return ""
-
-
 }
 
 fun HourlyWeather.humidity(): String {
     return "${humidity?.times(100)?.toInt()}%"
-    return ""
-
-
 }
 
 fun getCurrentTime(): String{

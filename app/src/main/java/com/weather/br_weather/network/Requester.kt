@@ -18,7 +18,7 @@ abstract class Requester<T> : Callback<T> {
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        responseHolder.message = t.localizedMessage
+        responseHolder.message = t.localizedMessage?.toString() ?: "Unknown Error"
         responseHolder.responseCode = ResponseCode.ERROR
         if (t is SocketTimeoutException)
         {
@@ -30,7 +30,7 @@ abstract class Requester<T> : Callback<T> {
             responseHolder.httpErrorType = 413
 
         }
-        Log.e("Requester Error", t.localizedMessage)
+        Log.e("Requester Error", t.localizedMessage?.toString() ?: "Unknown Error")
         liveResponseHolder.postValue(responseHolder)
     }
 
