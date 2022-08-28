@@ -7,12 +7,13 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-class CacheControlnterceptor : Interceptor {
+class CacheControleInterceptor : Interceptor {
+    val cacheMaxAge = 15
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val response: Response = chain.proceed(chain.request())
         val cacheControl = CacheControl.Builder()
-            .maxAge(15, TimeUnit.MINUTES) // 15 minutes cache
+            .maxAge(cacheMaxAge, TimeUnit.MINUTES) // 15 minutes cache
             .build()
         return response.newBuilder()
             .removeHeader("Pragma")
@@ -21,3 +22,4 @@ class CacheControlnterceptor : Interceptor {
             .build()
     }
 }
+

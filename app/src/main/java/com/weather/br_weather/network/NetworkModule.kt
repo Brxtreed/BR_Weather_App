@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import com.google.gson.GsonBuilder
-import com.weather.br_weather.network.requesters.CacheControlnterceptor
+import com.weather.br_weather.network.requesters.CacheControleInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,7 +51,7 @@ class NetworkModule {
         return OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
-            .addNetworkInterceptor(CacheControlnterceptor())
+            .addNetworkInterceptor(CacheControleInterceptor())
             .cache(cache)
     }
 
