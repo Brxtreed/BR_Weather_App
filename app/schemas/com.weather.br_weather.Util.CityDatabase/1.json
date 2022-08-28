@@ -1,0 +1,148 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "d4c0c378842105f47f0a62727027a01a",
+    "entities": [
+      {
+        "tableName": "City",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`modificationDate` TEXT, `admin2Code` INTEGER, `countryCode` TEXT, `population` INTEGER, `asciiname` TEXT, `geonameid` INTEGER, `dem` INTEGER, `featureClass` TEXT, `admin4Code` TEXT, `cc2` TEXT, `admin3Code` INTEGER, `timezone` TEXT, `featureCode` TEXT, `elevation` INTEGER, `name` TEXT NOT NULL, `alternatenames` TEXT, `latitude` REAL, `longitude` REAL, `admin1Code` TEXT, `imageURL` TEXT, PRIMARY KEY(`geonameid`))",
+        "fields": [
+          {
+            "fieldPath": "modificationDate",
+            "columnName": "modificationDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "admin2Code",
+            "columnName": "admin2Code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "population",
+            "columnName": "population",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "asciiname",
+            "columnName": "asciiname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "geonameid",
+            "columnName": "geonameid",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dem",
+            "columnName": "dem",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "featureClass",
+            "columnName": "featureClass",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "admin4Code",
+            "columnName": "admin4Code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cc2",
+            "columnName": "cc2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "admin3Code",
+            "columnName": "admin3Code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timezone",
+            "columnName": "timezone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "featureCode",
+            "columnName": "featureCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "elevation",
+            "columnName": "elevation",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alternatenames",
+            "columnName": "alternatenames",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "admin1Code",
+            "columnName": "admin1Code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageURLs.iOSImageURLs.imageURL",
+            "columnName": "imageURL",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "geonameid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd4c0c378842105f47f0a62727027a01a')"
+    ]
+  }
+}
